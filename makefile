@@ -1,7 +1,7 @@
 #CC=clang++
 CC=gcc
-CFLAGS=-c -Wall -pedantic -std=c89
-LDFLAGS=
+CFLAGS=-c -Wall -pedantic -Werror -std=c89 
+LDFLAGS=-lpthread
 SOURCES=Vashix.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=Vashix.out
