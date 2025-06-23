@@ -18,26 +18,39 @@ typedef struct
 	int a;
 } thread_arg;
 
-thtead_arg* thread_args;
+thread_arg* threads_args;
 
-pthread_t* pthread_t_threads;
+
 
 void* created_thread_routine(void* arg)
 {
+	thread_arg this_thread_arg;
+
+	this_thread_arg = *((thread_arg*)arg);
+	printf("%d ",this_thread_arg.a);
 	printf("thread\n");
 	pthread_exit(NULL);
 	return NULL;
 }
+
+pthread_t* pthread_t_threads;
 
 int main(int argc, char* argv[])
 {
 	numof_created_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1;
 	printf("%ld\n", numof_created_threads);
 	created_threads = (created_thread*)malloc(sizeof(created_thread)*numof_created_threads);
+	
+	threads_args = (thread_arg*)malloc(sizeof(thread_arg)*numof_created_threads);
+	for(c0 = 0;c0 < numof_created_threads;++c0)
+	{
+		threads_args[c0].a = c0;
+	}
+
 	pthread_t_threads = (pthread_t*)malloc(sizeof(pthread_t)*numof_created_threads);
 	for(c0 = 0;c0 < numof_created_threads;++c0)
 	{
-		pthread_create(&(pthread_t_threads[c0]), NULL, created_thread_routine, NULL);
+		pthread_create(&(pthread_t_threads[c0]), NULL, created_thread_routine, (void*)(&(threads_args[c0])));
 	}
 
 	for(c0 = 0;c0 < numof_created_threads;++c0)
