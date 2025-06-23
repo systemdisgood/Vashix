@@ -33,6 +33,7 @@ void* created_thread_routine(void* arg)
 	return NULL;
 }
 
+pthread_barrier_t barrier;
 pthread_t* pthread_t_threads;
 
 int main(int argc, char* argv[])
@@ -47,6 +48,7 @@ int main(int argc, char* argv[])
 		threads_args[c0].a = c0;
 	}
 
+	pthread_barrier_init(&barrier, NULL, numof_created_threads);
 	pthread_t_threads = (pthread_t*)malloc(sizeof(pthread_t)*numof_created_threads);
 	for(c0 = 0;c0 < numof_created_threads;++c0)
 	{
