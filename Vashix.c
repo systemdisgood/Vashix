@@ -15,25 +15,37 @@ long numof_created_threads;
 
 typedef struct
 {
-	int a;
+	int this_thread_number;
 } thread_arg;
 
 thread_arg* threads_args;
 
-
+pthread_barrier_t barrier;
 
 void* created_thread_routine(void* arg)
 {
 	thread_arg this_thread_arg;
+	int barrier_rc;
 
 	this_thread_arg = *((thread_arg*)arg);
-	printf("%d ",this_thread_arg.a);
+	printf("%d ",this_thread_arg.this_thread_number);
 	printf("thread\n");
+
+	printf("thread %d: Reached the barrier.\n", this_thread_arg.this_thread_number);
+    barrier_rc = pthread_barrier_wait(&barrier);
+
+    if (barrier_rc == PTHREAD_BARRIER_SERIAL_THREAD) {
+        printf("barrier serial\n");
+    } else if (barrier_rc == 0) {
+        printf("barrier all\n");
+    } else {
+        fprintf(stderr, "barrier error %d\n", barrier_rc);
+    }
+
 	pthread_exit(NULL);
 	return NULL;
 }
 
-pthread_barrier_t barrier;
 pthread_t* pthread_t_threads;
 
 int main(int argc, char* argv[])
@@ -45,7 +57,7 @@ int main(int argc, char* argv[])
 	threads_args = (thread_arg*)malloc(sizeof(thread_arg)*numof_created_threads);
 	for(c0 = 0;c0 < numof_created_threads;++c0)
 	{
-		threads_args[c0].a = c0;
+		threads_args[c0].this_thread_number = c0;
 	}
 
 	pthread_barrier_init(&barrier, NULL, numof_created_threads);
