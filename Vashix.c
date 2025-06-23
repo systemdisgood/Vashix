@@ -13,6 +13,13 @@ typedef struct
 created_thread* created_threads;
 long numof_created_threads;
 
+typedef struct
+{
+	int a;
+} thread_arg;
+
+thtead_arg* thread_args;
+
 pthread_t* pthread_t_threads;
 
 void* created_thread_routine(void* arg)
