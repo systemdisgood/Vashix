@@ -58,6 +58,7 @@ int main(int argc, char* argv[])
 		pthread_join(pthread_t_threads[c0] , NULL);
 	}
 	free(pthread_t_threads);
+	free(threads_args);
 	free(created_threads);
 	printf("Works!\n");
 	return 0;
