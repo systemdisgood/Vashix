@@ -31,13 +31,13 @@ void* created_thread_routine(void* arg)
 	printf("%d ",this_thread_arg.this_thread_number);
 	printf("thread\n");
 
-	printf("thread %d: Reached the barrier.\n", this_thread_arg.this_thread_number);
+	printf("thread %d: reached the barrier.\n", this_thread_arg.this_thread_number);
     barrier_rc = pthread_barrier_wait(&barrier);
 
     if (barrier_rc == PTHREAD_BARRIER_SERIAL_THREAD) {
-        printf("barrier serial\n");
+        printf("thread: %d\nbarrier state: serial\n\n", this_thread_arg.this_thread_number);
     } else if (barrier_rc == 0) {
-        printf("barrier all\n");
+        printf("thread: %d\nbarrier state: all\n\n", this_thread_arg.this_thread_number);
     } else {
         fprintf(stderr, "barrier error %d\n", barrier_rc);
     }
