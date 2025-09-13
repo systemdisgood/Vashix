@@ -1,2 +1,2 @@
 # Vashix
-A simple Unix-like OS written on Galkassembler with built-in shell interpreter.
+A simple file server and client demon  with mirroring on net level with bash like CLI. 
